@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# promo-agent: 프로모션 조건 결정 에이전트
 
-## Getting Started
+홈쇼핑 담당자가 방송마다 하던 프로모션 조건(카드 청구할인, 사은품) 결정 업무를 에이전트가 맡는 시제품입니다. 편성표의 방송마다 에이전트가 결정안을 올리고, 담당자는 승인하거나 고치고, 고친 이유를 제약으로 배우고, 방송 실적으로 추정을 갱신해 다음 결정안을 냅니다.
 
-First, run the development server:
+LOTTE AX CHALLENGE 2026 롯데홈쇼핑 과제 「프로모션 시뮬레이터」 예선 제출용입니다. 과제가 요구하는 시뮬레이터(조건별 반응 추정 모듈과 조합별 비교 및 최적안 도출 규칙)는 이 에이전트의 두뇌 부품입니다.
 
-```bash
+**모든 데이터는 합성입니다.** 방송, 상품, 실적, 담당자의 수정과 이유는 전부 만든 것이며 실제 홈쇼핑 수치와 무관합니다. 아래 수치는 합성 세계 안의 값이고 실제 성과가 아닙니다.
+
+## 업무 고리
+
+| 단계 | 담당자가 하던 일 | 에이전트가 맡는 일 |
+|---|---|---|
+| 방송 전 | 경험과 지난 방송 기억으로 조건을 정함(추정) | 조합 16개를 전부 계산해 결정안(고른 조합, 예상 구간, 버린 대안, 확신 낮은 곳)을 올림 |
+| 승인 | | 담당자는 승인하거나 고침. 고친 이유를 에이전트가 제약 후보로 해석하고 담당자가 확인하면 활성 |
+| 방송 후 | 조건 효과를 떼어 보기 어려움 | 예상 구간 대 실제를 적고 추정을 갱신. 조건이 매출을 올렸다고 단정하지 않음 |
+| 다음 방송 | 같은 직관으로 다시 정함 | 갱신된 추정과 활성 제약으로 다음 결정안. 달라진 점을 표시 |
+
+권한은 「에이전트가 정하고 담당자가 승인」입니다. 자동 확정은 구현하지 않았고, 상품군별 승격 판정 화면(수정률, 구간 포함률)만 설계 표시로 두었습니다. 기준값은 현업이 정하는 칸이라 비워 두었습니다.
+
+## 코드와 모델의 경계
+
+숫자와 순위는 전부 코드가 냅니다. 모델은 두 곳에만 쓰입니다.
+
+1. 결정안 문장. 모델은 슬롯 이름(`{{orders_p50}}` 같은)만 쓰고 코드가 값을 채웁니다. 슬롯 밖에 숫자가 한 글자라도 있으면 거부하고 다시 쓰게 하며, 두 번 실패하면 코드 템플릿 문장으로 대체합니다.
+2. 수정 이유 해석. 담당자의 자유 문장을 제약 후보(사은품 금지, 카드 상한, 사은품 필수, 메모, 해석 불가)로 바꾸고, 코드가 검증합니다(메뉴에 없는 id, 원문에 없는 인용과 숫자는 거부). 담당자가 확인 카드를 눌러야 활성이 됩니다. 기본 지속은 이번 방송만입니다.
+
+모델을 빼면 자유 문장이 시스템에 들어오는 통로와 읽기 쉬운 근거 서술이 사라지고, 순위와 최적안은 그대로 나옵니다. 이 한계를 숨기지 않습니다.
+
+## 추정과 갱신
+
+로그 주문 수를 칸(상품군 x 시간대) 기준값과 카드 단계 효과, 사은품 효과, 작은 상호작용 항의 합으로 두는 정규 베이지안 선형 모델입니다. 정밀도 형태로 보관해 실적 한 건 반영이 덧셈이라 순서 불변, 영 증거 불변, 한 건 기여 계산이 따라옵니다. 잡음 분산은 고정값입니다(한계). 예측은 사후 표본 400개로 80% 구간을 냅니다.
+
+조합 탐색은 전수(카드 4단계 x 사은품 4종)이고, 활성 제약과 예산과 마진 하한으로 거른 뒤 목표(매출 또는 마진) 중앙값으로 순위를 매깁니다. 1위일 확률은 같은 사후 표본에서 셉니다.
+
+## 합성 세계
+
+숨은 참 반응 함수로 과거 방송 300건 이상과 「한 회 방송 실행」을 만듭니다. 추정기가 가정하지 않는 것을 일부러 넣었습니다: 오목한 할인 효과, 상품군별 카드 x 사은품 상호작용, 시간대별 사은품 탄력, 후반부 구조 변화, 기록되지 않는 요인, 과거 조건 선택의 편향, 두꺼운 꼬리 잡음, 표본 희소. 추정기와 탐색기는 참 함수를 import 할 수 없습니다(eslint 규칙으로 막음).
+
+평가용 세계 48개(어긋남 켬 24, 끔 24)와 수정 이유 시험 문장 50개는 추정기를 만든 세션과 다른 Claude 세션이 썼고 해시로 봉인했습니다(`eval/SEAL.md`). 같은 모델 계열이 쓴 문장이라 해석기에 유리할 수 있다는 한계가 있습니다.
+
+## 측정 결과 (합성 세계 안의 값)
+
+손실은 참 기대 마진 기준 최선 조합과 실제 고른 조합의 차이(원)이며, 시드별 누적을 24개 시드로 평균한 값입니다. 가상 담당자(믿음 규칙 일부는 맞고 일부는 틀림)가 네 에이전트에 똑같이 개입합니다. `BROADCASTS=24 npx tsx scripts/eval-learning-curve.ts`, `BROADCASTS=96 ...` 으로 재현됩니다.
+
+| 방송 회수 | 세계 | 갱신 켬 | 갱신 끔 | 직전 조합 복사 | 무작위 | 켬이 끔을 이긴 시드 | 켬이 복사를 이긴 시드 |
+|---|---|---|---|---|---|---|---|
+| 24 | 어긋남 켬 | 9,100,133 | 8,976,516 | 24,356,890 | 23,802,965 | 10/24 | 23/24 |
+| 24 | 어긋남 끔 | 7,360,850 | 7,041,055 | 20,579,575 | 20,978,700 | 10/24 | 23/24 |
+| 96 | 어긋남 켬 | 33,583,748 | 38,430,424 | 100,202,984 | 97,389,275 | 18/24 | 23/24 |
+| 96 | 어긋남 끔 | 27,928,770 | 29,021,985 | 84,048,092 | 85,472,988 | 16/24 | 24/24 |
+
+읽는 법. 에이전트는 기준선(직전 조합 복사, 무작위)보다 손실이 뚜렷이 작습니다. 그러나 방송 24회 동안은 갱신을 켠 것과 끈 것의 차이가 없습니다. 과거 360건 위에 24건이 얹혀서는 사후가 거의 움직이지 않기 때문입니다. 96회가 되면 갱신 켠 쪽이 더 많은 시드에서 이깁니다. 갱신의 값은 회수가 쌓여야 드러나며, 이 결과는 합성 세계 안의 일관성이지 실제 방송 정확도가 아닙니다.
+
+구간 정직성(T6): 어긋남 끈 세계의 뒤쪽 30% 방송에서 80% 구간 포함 비율이 70% 이상인지 테스트로 확인합니다. 켠 세계는 값만 기록합니다.
+
+## 한계
+
+1. 실제 데이터가 없습니다. 현장 데이터가 오면 바뀌는 것은 입력 칸과 사전분포이고, 추정과 탐색과 갱신과 검증의 구조는 그대로입니다.
+2. 현실에서는 한쪽 조합만 방송되므로 에이전트 원안과 담당자 수정안 중 어느 쪽이 맞았는지를 직접 잴 수 없습니다. 합성에서만 참 함수로 잽니다.
+3. 승인된 조합만 방송되어 관측이 쏠립니다(탐색 부족). 탐색 방송을 제안할지는 업무 정책이라 넣지 않았습니다.
+4. 수정 이유 한 문장에 제약 하나만 뽑습니다. 두 가지 뜻이 든 문장은 하나만 잡힙니다.
+5. 취소율(8%)과 카드 청구할인의 회사 부담 비율(50%)은 가정값이며 화면에 「가정」 배지로 표시합니다. 무이자 할부 축과 협력사 비용 분담은 범위 밖입니다.
+6. 모델은 Claude 로만 시험했습니다. 공급자와 모델 이름은 설정으로 분리했지만 OpenAI 에서는 시험하지 않았습니다.
+
+## 실행
+
+```
+npm install
+cp .env.example .env.local   # ANTHROPIC_API_KEY, LLM_PROVIDER, LLM_MODEL
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test                      # T1~T6, T8~T10
+npx tsx scripts/loop-demo.ts  # 콘솔에서 고리 한 바퀴
+BROADCASTS=24 npx tsx scripts/eval-learning-curve.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+모델 키가 없거나 `LLM_DISABLED=1` 이면 결정안 문장은 템플릿으로 나오고 수정 이유 해석은 꺼집니다. 숫자와 순위는 영향이 없습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 역할
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+구현, 테스트, 평가 설계, 문서는 AI 에이전트(Claude Code)가 했습니다. 문제 정의(담당자의 조건 결정 업무를 에이전트가 맡는다), 권한 설계(승인), 범위 판단(무이자와 협력사 몫 제외), 승인은 김지은이 했습니다.

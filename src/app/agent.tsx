@@ -7,6 +7,41 @@ import type { ExplainResult } from '@/lib/llm/explain';
 import type { Constraint } from '@/lib/ledger/constraints';
 import type { ComboEval } from '@/lib/search/combos';
 import type { DecisionRecord } from '@/lib/state';
+import curves from '../../eval/results/summary.json';
+
+type CurveAgent = 'updating' | 'frozen' | 'copy_last' | 'random';
+type CurveGroup = { seeds: number; meanTotal: Record<CurveAgent, number>; worstTotal: Record<CurveAgent, number>; curve: Record<CurveAgent, number[]>; updatingBeatsFrozen: number; updatingBeatsCopy: number };
+type CurveFile = Record<string, { generatedAt: string; summary: { broadcasts: number; groups: { on: CurveGroup; off: CurveGroup } } }>;
+const CURVES = curves as unknown as CurveFile;
+const AGENT_LABEL: Record<CurveAgent, string> = { updating: '갱신 켠 에이전트', frozen: '갱신 끈 에이전트', copy_last: '직전 조합 복사', random: '무작위' };
+const AGENT_COLOR: Record<CurveAgent, string> = { updating: '#047857', frozen: '#1d4ed8', copy_last: '#b45309', random: '#9ca3af' };
+
+function CurveChart({ g }: { g: CurveGroup }) {
+  const agents: CurveAgent[] = ['updating', 'frozen', 'copy_last', 'random'];
+  const cum = (xs: number[]) => xs.reduce<number[]>((acc, v) => [...acc, (acc[acc.length - 1] ?? 0) + v], []);
+  const series = agents.map((a) => ({ a, ys: cum(g.curve[a]) }));
+  const maxY = Math.max(...series.flatMap((s) => s.ys));
+  const n = series[0].ys.length;
+  const W = 520;
+  const H = 180;
+  const px = (i: number) => 40 + (i / Math.max(1, n - 1)) * (W - 50);
+  const py = (y: number) => H - 20 - (y / maxY) * (H - 30);
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-[520px]">
+      <line x1={40} y1={H - 20} x2={W - 10} y2={H - 20} stroke="#d1d5db" />
+      <line x1={40} y1={10} x2={40} y2={H - 20} stroke="#d1d5db" />
+      {series.map((s) => (
+        <polyline key={s.a} fill="none" stroke={AGENT_COLOR[s.a]} strokeWidth={2} points={s.ys.map((y, i) => `${px(i)},${py(y)}`).join(' ')} />
+      ))}
+      <text x={42} y={12} fontSize={10} fill="#6b7280">
+        누적 손실(원, 참 기대 마진 기준)
+      </text>
+      <text x={W - 10} y={H - 6} fontSize={10} fill="#6b7280" textAnchor="end">
+        방송 회차
+      </text>
+    </svg>
+  );
+}
 
 type ProposeResponse = { sb: ScheduledBroadcast; product: Product; proposal: ProposalDto; explanation: ExplainResult; before: ProposalDto | null; llmNote: string | null; error?: string };
 type InterpretResponse = { ok: boolean; attempts: number; candidate?: Constraint; description?: string; errors?: string[]; llmNote?: string | null; error?: string };
@@ -51,7 +86,7 @@ export default function Agent() {
   const [reasonText, setReasonText] = useState('');
   const [interp, setInterp] = useState<InterpretResponse | null>(null);
   const [finalCombo, setFinalCombo] = useState<Combo | null>(null);
-  const [tab, setTab] = useState<'loop' | 'ledger' | 'promotion'>('loop');
+  const [tab, setTab] = useState<'loop' | 'ledger' | 'promotion' | 'curve'>('loop');
 
   useEffect(() => {
     if (!hydrated) return;
@@ -226,9 +261,9 @@ export default function Agent() {
           <p className="text-gray-600">편성표의 방송마다 에이전트가 조건 결정안을 올리고, 담당자는 승인하거나 고치고, 고친 이유를 제약으로 배우고, 방송 실적으로 추정을 갱신해 다음 결정안을 냅니다.</p>
         </div>
         <div className="flex gap-2">
-          {(['loop', 'ledger', 'promotion'] as const).map((t) => (
+          {(['loop', 'ledger', 'promotion', 'curve'] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)} className={`rounded px-3 py-1 ${tab === t ? 'bg-gray-900 text-white' : 'bg-gray-100'}`}>
-              {{ loop: '결정 고리', ledger: '제약 장부와 결정 기록', promotion: '승격 판정' }[t]}
+              {{ loop: '결정 고리', ledger: '제약 장부와 결정 기록', promotion: '승격 판정', curve: '학습 곡선(평가)' }[t]}
             </button>
           ))}
           <button onClick={reset} className="rounded border px-3 py-1">
@@ -562,6 +597,53 @@ export default function Agent() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {tab === 'curve' && (
+        <div className="space-y-4">
+          <div className="rounded border border-gray-200 p-3 text-[13px]">
+            <div className="mb-1 font-semibold">학습 곡선: 갱신 켠 에이전트 대 끈 에이전트 대 기준선</div>
+            <p className="text-gray-600">봉인된 평가용 합성 세계 48개(어긋남 켬 24, 끔 24)에서 같은 편성표와 같은 가상 담당자로 네 에이전트를 돌린 결과입니다. 손실은 참 기대 마진 기준 최선 조합과 실제 고른 조합의 차이이고 시드 평균입니다. 합성 세계 안의 일관성이지 실제 방송 정확도가 아닙니다. 못 이긴 결과도 그대로 적습니다.</p>
+            <div className="mt-1 flex flex-wrap gap-3 text-[12px]">
+              {(['updating', 'frozen', 'copy_last', 'random'] as CurveAgent[]).map((a) => (
+                <span key={a} className="flex items-center gap-1">
+                  <span className="inline-block h-2 w-4" style={{ background: AGENT_COLOR[a] }} /> {AGENT_LABEL[a]}
+                </span>
+              ))}
+            </div>
+          </div>
+          {Object.entries(CURVES)
+            .sort((a, b) => Number(a[0]) - Number(b[0]))
+            .map(([n, file]) => (
+              <div key={n} className="grid gap-4 md:grid-cols-2">
+                {(['on', 'off'] as const).map((grp) => {
+                  const g = file.summary.groups[grp];
+                  return (
+                    <div key={grp} className="rounded border border-gray-200 p-3">
+                      <div className="mb-1 font-semibold">
+                        방송 {n}회, 어긋남 {grp === 'on' ? '켬' : '끔'} (시드 {g.seeds}개)
+                      </div>
+                      <CurveChart g={g} />
+                      <table className="mt-2 w-full text-[12px]">
+                        <tbody>
+                          {(['updating', 'frozen', 'copy_last', 'random'] as CurveAgent[]).map((a) => (
+                            <tr key={a} className="border-t border-gray-200">
+                              <td className="py-0.5">{AGENT_LABEL[a]}</td>
+                              <td className="py-0.5 text-right tabular-nums">평균 {won(g.meanTotal[a])}</td>
+                              <td className="py-0.5 text-right tabular-nums text-gray-500">최악 {won(g.worstTotal[a])}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="mt-1 text-[12px] text-gray-600">
+                        갱신 켠 쪽이 끈 쪽을 이긴 시드 {g.updatingBeatsFrozen}/{g.seeds}, 직전 복사를 이긴 시드 {g.updatingBeatsCopy}/{g.seeds}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
         </div>
       )}
 

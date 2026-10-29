@@ -51,6 +51,25 @@ export function proposeFor(state: AgentState, sb: ScheduledBroadcast, seed = 1):
   return propose(state.model, sb, productOf(state, sb.productId), state.menu, state.ledger, seed);
 }
 
+// 결정 기록(R8): 승인 또는 수정. 수정은 원안과 최종안 차이로 자동 기록.
+export function recordDecision(state: AgentState, sb: ScheduledBroadcast, proposal: Proposal, finalCombo: Combo, reasonChips: string[], reasonText: string | undefined, constraintIds: string[]): AgentState {
+  const c = proposal.chosen;
+  if (!c) throw new Error(`proposal for ${sb.id} has no chosen combo`);
+  const modified = c.combo.cardLevel !== finalCombo.cardLevel || c.combo.giftId !== finalCombo.giftId;
+  const rec: DecisionRecord = {
+    broadcastId: sb.id,
+    t: sb.t,
+    proposed: { cardLevel: c.combo.cardLevel, giftId: c.combo.giftId },
+    final: { cardLevel: finalCombo.cardLevel, giftId: finalCombo.giftId },
+    status: modified ? 'modified' : 'approved',
+    reasonChips,
+    reasonText,
+    constraintIds,
+    predictedOrders: finalCombo === c.combo || !modified ? c.orders : (proposal.search.evals.find((e) => e.combo.cardLevel === finalCombo.cardLevel && e.combo.giftId === finalCombo.giftId)?.orders ?? c.orders),
+  };
+  return { ...state, decisions: [...state.decisions.filter((d) => d.broadcastId !== sb.id), rec] };
+}
+
 // 갱신 전후 비교(R11). 이번 실적 한 건이 이 칸의 조합별 예측을 얼마나 움직였나.
 export type UpdateDiff = {
   before: ModelState;

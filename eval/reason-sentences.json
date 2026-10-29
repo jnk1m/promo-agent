@@ -1,0 +1,1154 @@
+{
+  "sentences": [
+    {
+      "id": "R01",
+      "text": "이번 방송은 사은품 B 빼 주세요.",
+      "broadcast": {
+        "id": "S0400",
+        "t": 400,
+        "category": "식품",
+        "daypart": "저녁",
+        "productId": "식품-2"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {},
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0400"
+        },
+        "quote": "사은품 B 빼 주세요"
+      }
+    },
+    {
+      "id": "R02",
+      "text": "이 상품은 B 사은품 넣지 마. 이번만.",
+      "broadcast": {
+        "id": "S0412",
+        "t": 412,
+        "category": "뷰티",
+        "daypart": "낮",
+        "productId": "뷰티-1"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "productId": "뷰티-1"
+        },
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0412"
+        },
+        "quote": "B 사은품 넣지 마"
+      }
+    },
+    {
+      "id": "R03",
+      "text": "체험 구성품은 이번 방송에서 제외해 주세요.",
+      "broadcast": {
+        "id": "S0425",
+        "t": 425,
+        "category": "건강식품",
+        "daypart": "아침",
+        "productId": "건강식품-3"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {},
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0425"
+        },
+        "quote": "체험 구성품은 이번 방송에서 제외해 주세요"
+      }
+    },
+    {
+      "id": "R04",
+      "text": "본품 추가 구성은 앞으로 쭉 식품 방송에서 빼 주세요.",
+      "broadcast": {
+        "id": "S0438",
+        "t": 438,
+        "category": "식품",
+        "daypart": "심야",
+        "productId": "식품-1"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "category": "식품"
+        },
+        "target": {
+          "giftId": "C"
+        },
+        "duration": {
+          "type": "always"
+        },
+        "quote": "본품 추가 구성은 앞으로 쭉 식품 방송에서 빼 주세요"
+      }
+    },
+    {
+      "id": "R05",
+      "text": "당분간 심야에는 사은품 B 금지예요.",
+      "broadcast": {
+        "id": "S0451",
+        "t": 451,
+        "category": "패션",
+        "daypart": "심야",
+        "productId": "패션-2"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "daypart": "심야"
+        },
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "until_t",
+          "t": 481
+        },
+        "quote": "사은품 B 금지예요"
+      }
+    },
+    {
+      "id": "R06",
+      "text": "사은품 A는 이 건에서 쓰지 않을게요.",
+      "broadcast": {
+        "id": "S0463",
+        "t": 463,
+        "category": "생활가전",
+        "daypart": "저녁",
+        "productId": "생활가전-3"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {},
+        "target": {
+          "giftId": "A"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0463"
+        },
+        "quote": "사은품 A는 이 건에서 쓰지 않을게요"
+      }
+    },
+    {
+      "id": "R07",
+      "text": "사은품 B 노노, 이번엔.",
+      "broadcast": {
+        "id": "S0377",
+        "t": 377,
+        "category": "뷰티",
+        "daypart": "아침",
+        "productId": "뷰티-2"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {},
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0377"
+        },
+        "quote": "사은품 B 노노"
+      }
+    },
+    {
+      "id": "R08",
+      "text": "사은품 C가 안 어울리는 건 아니지만 뷰티 저녁에는 C를 넣으면 안 돼요.",
+      "broadcast": {
+        "id": "S0489",
+        "t": 489,
+        "category": "뷰티",
+        "daypart": "저녁",
+        "productId": "뷰티-1"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "category": "뷰티",
+          "daypart": "저녁"
+        },
+        "target": {
+          "giftId": "C"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0489"
+        },
+        "quote": "C를 넣으면 안 돼요"
+      }
+    },
+    {
+      "id": "R09",
+      "text": "건강식품은 앞으로 항상 소형 실용품 사은품은 빼요.",
+      "broadcast": {
+        "id": "S0502",
+        "t": 502,
+        "category": "건강식품",
+        "daypart": "낮",
+        "productId": "건강식품-2"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "category": "건강식품"
+        },
+        "target": {
+          "giftId": "A"
+        },
+        "duration": {
+          "type": "always"
+        },
+        "quote": "소형 실용품 사은품은 빼요"
+      }
+    },
+    {
+      "id": "R10",
+      "text": "이 상품 한정으로 체험 구성품 없이 가요.",
+      "broadcast": {
+        "id": "S0391",
+        "t": 391,
+        "category": "패션",
+        "daypart": "저녁",
+        "productId": "패션-3"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "productId": "패션-3"
+        },
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0391"
+        },
+        "quote": "체험 구성품 없이 가요"
+      }
+    },
+    {
+      "id": "R11",
+      "text": "패션 낮 시간대는 당분간 사은품 C 없이 부탁드려요.",
+      "broadcast": {
+        "id": "S0417",
+        "t": 417,
+        "category": "패션",
+        "daypart": "낮",
+        "productId": "패션-1"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "category": "패션",
+          "daypart": "낮"
+        },
+        "target": {
+          "giftId": "C"
+        },
+        "duration": {
+          "type": "until_t",
+          "t": 447
+        },
+        "quote": "사은품 C 없이 부탁드려요"
+      }
+    },
+    {
+      "id": "R12",
+      "text": "생활가전은 B 절대 안 됩니다. 앞으로 쭉.",
+      "broadcast": {
+        "id": "S0446",
+        "t": 446,
+        "category": "생활가전",
+        "daypart": "아침",
+        "productId": "생활가전-2"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "category": "생활가전"
+        },
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "always"
+        },
+        "quote": "B 절대 안 됩니다"
+      }
+    },
+    {
+      "id": "R13",
+      "text": "소형 실용품은 이번에 빼자.",
+      "broadcast": {
+        "id": "S0471",
+        "t": 471,
+        "category": "식품",
+        "daypart": "낮",
+        "productId": "식품-3"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {},
+        "target": {
+          "giftId": "A"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0471"
+        },
+        "quote": "소형 실용품은 이번에 빼자"
+      }
+    },
+    {
+      "id": "R14",
+      "text": "아침 방송엔 B 쓰지 말아 주세요, 이번만요.",
+      "broadcast": {
+        "id": "S0408",
+        "t": 408,
+        "category": "건강식품",
+        "daypart": "아침",
+        "productId": "건강식품-1"
+      },
+      "expected": {
+        "kind": "ban_gift",
+        "scope": {
+          "daypart": "아침"
+        },
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0408"
+        },
+        "quote": "B 쓰지 말아 주세요"
+      }
+    },
+    {
+      "id": "R15",
+      "text": "카드 할인은 7%까지만 해 주세요.",
+      "broadcast": {
+        "id": "S0405",
+        "t": 405,
+        "category": "뷰티",
+        "daypart": "저녁",
+        "productId": "뷰티-2"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {},
+        "target": {
+          "maxCardLevel": 7
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0405"
+        },
+        "quote": "7%까지만"
+      }
+    },
+    {
+      "id": "R16",
+      "text": "10%는 과해요. 이번 방송은 5%로 제한.",
+      "broadcast": {
+        "id": "S0433",
+        "t": 433,
+        "category": "식품",
+        "daypart": "낮",
+        "productId": "식품-1"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {},
+        "target": {
+          "maxCardLevel": 5
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0433"
+        },
+        "quote": "이번 방송은 5%로 제한"
+      }
+    },
+    {
+      "id": "R17",
+      "text": "카드 할인 없이 가죠.",
+      "broadcast": {
+        "id": "S0456",
+        "t": 456,
+        "category": "패션",
+        "daypart": "심야",
+        "productId": "패션-3"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {},
+        "target": {
+          "maxCardLevel": 0
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0456"
+        },
+        "quote": "카드 할인 없이 가죠"
+      }
+    },
+    {
+      "id": "R18",
+      "text": "이 상품은 카드 5% 넘기지 마세요.",
+      "broadcast": {
+        "id": "S0384",
+        "t": 384,
+        "category": "생활가전",
+        "daypart": "낮",
+        "productId": "생활가전-2"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {
+          "productId": "생활가전-2"
+        },
+        "target": {
+          "maxCardLevel": 5
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0384"
+        },
+        "quote": "카드 5% 넘기지 마세요"
+      }
+    },
+    {
+      "id": "R19",
+      "text": "당분간 저녁 시간대 카드 할인은 7퍼센트 이하로.",
+      "broadcast": {
+        "id": "S0478",
+        "t": 478,
+        "category": "건강식품",
+        "daypart": "저녁",
+        "productId": "건강식품-3"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {
+          "daypart": "저녁"
+        },
+        "target": {
+          "maxCardLevel": 7
+        },
+        "duration": {
+          "type": "until_t",
+          "t": 508
+        },
+        "quote": "7퍼센트 이하로"
+      }
+    },
+    {
+      "id": "R20",
+      "text": "식품은 앞으로 쭉 카드 5%까지만.",
+      "broadcast": {
+        "id": "S0495",
+        "t": 495,
+        "category": "식품",
+        "daypart": "아침",
+        "productId": "식품-2"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {
+          "category": "식품"
+        },
+        "target": {
+          "maxCardLevel": 5
+        },
+        "duration": {
+          "type": "always"
+        },
+        "quote": "카드 5%까지만"
+      }
+    },
+    {
+      "id": "R21",
+      "text": "카드 할인 10은 너무 세. 7까지만.",
+      "broadcast": {
+        "id": "S0399",
+        "t": 399,
+        "category": "뷰티",
+        "daypart": "심야",
+        "productId": "뷰티-1"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {},
+        "target": {
+          "maxCardLevel": 7
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0399"
+        },
+        "quote": "7까지만"
+      }
+    },
+    {
+      "id": "R22",
+      "text": "이번엔 카드 쓰지 마요.",
+      "broadcast": {
+        "id": "S0421",
+        "t": 421,
+        "category": "패션",
+        "daypart": "아침",
+        "productId": "패션-1"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {},
+        "target": {
+          "maxCardLevel": 0
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0421"
+        },
+        "quote": "카드 쓰지 마요"
+      }
+    },
+    {
+      "id": "R23",
+      "text": "뷰티는 항상 카드 청구할인 5% 이내로 갑니다.",
+      "broadcast": {
+        "id": "S0467",
+        "t": 467,
+        "category": "뷰티",
+        "daypart": "낮",
+        "productId": "뷰티-3"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {
+          "category": "뷰티"
+        },
+        "target": {
+          "maxCardLevel": 5
+        },
+        "duration": {
+          "type": "always"
+        },
+        "quote": "카드 청구할인 5% 이내로"
+      }
+    },
+    {
+      "id": "R24",
+      "text": "심야 방송, 이번만 카드 7%를 넘기면 안 돼요.",
+      "broadcast": {
+        "id": "S0510",
+        "t": 510,
+        "category": "생활가전",
+        "daypart": "심야",
+        "productId": "생활가전-1"
+      },
+      "expected": {
+        "kind": "cap_card",
+        "scope": {
+          "daypart": "심야"
+        },
+        "target": {
+          "maxCardLevel": 7
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0510"
+        },
+        "quote": "카드 7%를 넘기면 안 돼요"
+      }
+    },
+    {
+      "id": "R25",
+      "text": "이번 방송은 사은품 B로 가 주세요.",
+      "broadcast": {
+        "id": "S0389",
+        "t": 389,
+        "category": "건강식품",
+        "daypart": "저녁",
+        "productId": "건강식품-2"
+      },
+      "expected": {
+        "kind": "require_gift",
+        "scope": {},
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0389"
+        },
+        "quote": "사은품 B로 가 주세요"
+      }
+    },
+    {
+      "id": "R26",
+      "text": "체험 구성품을 꼭 넣어 주세요. 이 상품은 체험이 핵심이에요.",
+      "broadcast": {
+        "id": "S0414",
+        "t": 414,
+        "category": "뷰티",
+        "daypart": "낮",
+        "productId": "뷰티-3"
+      },
+      "expected": {
+        "kind": "require_gift",
+        "scope": {
+          "productId": "뷰티-3"
+        },
+        "target": {
+          "giftId": "B"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0414"
+        },
+        "quote": "체험 구성품을 꼭 넣어 주세요"
+      }
+    },
+    {
+      "id": "R27",
+      "text": "당분간 건강식품 아침엔 본품 추가 구성으로 고정.",
+      "broadcast": {
+        "id": "S0442",
+        "t": 442,
+        "category": "건강식품",
+        "daypart": "아침",
+        "productId": "건강식품-1"
+      },
+      "expected": {
+        "kind": "require_gift",
+        "scope": {
+          "category": "건강식품",
+          "daypart": "아침"
+        },
+        "target": {
+          "giftId": "C"
+        },
+        "duration": {
+          "type": "until_t",
+          "t": 472
+        },
+        "quote": "본품 추가 구성으로 고정"
+      }
+    },
+    {
+      "id": "R28",
+      "text": "앞으로 쭉 패션은 사은품 A 필수.",
+      "broadcast": {
+        "id": "S0480",
+        "t": 480,
+        "category": "패션",
+        "daypart": "저녁",
+        "productId": "패션-2"
+      },
+      "expected": {
+        "kind": "require_gift",
+        "scope": {
+          "category": "패션"
+        },
+        "target": {
+          "giftId": "A"
+        },
+        "duration": {
+          "type": "always"
+        },
+        "quote": "사은품 A 필수"
+      }
+    },
+    {
+      "id": "R29",
+      "text": "이번엔 소형 실용품 꼭 붙여.",
+      "broadcast": {
+        "id": "S0427",
+        "t": 427,
+        "category": "식품",
+        "daypart": "심야",
+        "productId": "식품-3"
+      },
+      "expected": {
+        "kind": "require_gift",
+        "scope": {},
+        "target": {
+          "giftId": "A"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0427"
+        },
+        "quote": "소형 실용품 꼭 붙여"
+      }
+    },
+    {
+      "id": "R30",
+      "text": "생활가전 저녁은 사은품 C로 해 주세요, 이번만.",
+      "broadcast": {
+        "id": "S0459",
+        "t": 459,
+        "category": "생활가전",
+        "daypart": "저녁",
+        "productId": "생활가전-1"
+      },
+      "expected": {
+        "kind": "require_gift",
+        "scope": {
+          "category": "생활가전",
+          "daypart": "저녁"
+        },
+        "target": {
+          "giftId": "C"
+        },
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0459"
+        },
+        "quote": "사은품 C로 해 주세요"
+      }
+    },
+    {
+      "id": "R31",
+      "text": "되도록 체험 구성품은 빼 주세요.",
+      "broadcast": {
+        "id": "S0403",
+        "t": 403,
+        "category": "뷰티",
+        "daypart": "아침",
+        "productId": "뷰티-1"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0403"
+        },
+        "quote": "되도록 체험 구성품은 빼 주세요"
+      }
+    },
+    {
+      "id": "R32",
+      "text": "가능하면 카드 할인은 낮게 가면 좋겠어요.",
+      "broadcast": {
+        "id": "S0436",
+        "t": 436,
+        "category": "식품",
+        "daypart": "저녁",
+        "productId": "식품-2"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0436"
+        },
+        "quote": "가능하면 카드 할인은 낮게 가면 좋겠어요"
+      }
+    },
+    {
+      "id": "R33",
+      "text": "이 상품은 고객 반응이 좋아서 신경 써 주세요.",
+      "broadcast": {
+        "id": "S0449",
+        "t": 449,
+        "category": "패션",
+        "daypart": "낮",
+        "productId": "패션-3"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {
+          "productId": "패션-3"
+        },
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0449"
+        },
+        "quote": "고객 반응이 좋아서 신경 써 주세요"
+      }
+    },
+    {
+      "id": "R34",
+      "text": "웬만하면 사은품 B는 피하는 쪽으로요.",
+      "broadcast": {
+        "id": "S0474",
+        "t": 474,
+        "category": "생활가전",
+        "daypart": "심야",
+        "productId": "생활가전-1"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0474"
+        },
+        "quote": "웬만하면 사은품 B는 피하는 쪽으로요"
+      }
+    },
+    {
+      "id": "R35",
+      "text": "저번 방송에서 사은품 때문에 취소가 좀 많았어요.",
+      "broadcast": {
+        "id": "S0392",
+        "t": 392,
+        "category": "건강식품",
+        "daypart": "낮",
+        "productId": "건강식품-2"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0392"
+        },
+        "quote": "사은품 때문에 취소가 좀 많았어요"
+      }
+    },
+    {
+      "id": "R36",
+      "text": "될 수 있으면 7%는 안 넘기면 좋겠는데, 알아서 판단해 주세요.",
+      "broadcast": {
+        "id": "S0487",
+        "t": 487,
+        "category": "뷰티",
+        "daypart": "저녁",
+        "productId": "뷰티-3"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0487"
+        },
+        "quote": "될 수 있으면 7%는 안 넘기면 좋겠는데"
+      }
+    },
+    {
+      "id": "R37",
+      "text": "이 상품군은 재고가 넉넉하지 않아서 참고만 해 주세요.",
+      "broadcast": {
+        "id": "S0415",
+        "t": 415,
+        "category": "식품",
+        "daypart": "아침",
+        "productId": "식품-1"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {
+          "category": "식품"
+        },
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0415"
+        },
+        "quote": "재고가 넉넉하지 않아서 참고만 해 주세요"
+      }
+    },
+    {
+      "id": "R38",
+      "text": "되도록이면 저녁엔 A 위주로 갔으면.",
+      "broadcast": {
+        "id": "S0498",
+        "t": 498,
+        "category": "패션",
+        "daypart": "저녁",
+        "productId": "패션-2"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {
+          "daypart": "저녁"
+        },
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0498"
+        },
+        "quote": "되도록이면 저녁엔 A 위주로 갔으면"
+      }
+    },
+    {
+      "id": "R39",
+      "text": "사은품은 가급적 단출하게 가는 걸 선호해요.",
+      "broadcast": {
+        "id": "S0430",
+        "t": 430,
+        "category": "생활가전",
+        "daypart": "낮",
+        "productId": "생활가전-3"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0430"
+        },
+        "quote": "가급적 단출하게 가는 걸 선호해요"
+      }
+    },
+    {
+      "id": "R40",
+      "text": "당분간 카드 할인은 좀 줄이는 분위기였으면 해요.",
+      "broadcast": {
+        "id": "S0465",
+        "t": 465,
+        "category": "건강식품",
+        "daypart": "심야",
+        "productId": "건강식품-1"
+      },
+      "expected": {
+        "kind": "note",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "until_t",
+          "t": 495
+        },
+        "quote": "카드 할인은 좀 줄이는 분위기였으면 해요"
+      }
+    },
+    {
+      "id": "R41",
+      "text": "오늘 점심 뭐 먹지?",
+      "broadcast": {
+        "id": "S0386",
+        "t": 386,
+        "category": "뷰티",
+        "daypart": "낮",
+        "productId": "뷰티-1"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0386"
+        },
+        "quote": "오늘 점심 뭐 먹지"
+      }
+    },
+    {
+      "id": "R42",
+      "text": "사은품 B 꼭 넣고, 사은품 B는 빼 주세요.",
+      "broadcast": {
+        "id": "S0407",
+        "t": 407,
+        "category": "식품",
+        "daypart": "저녁",
+        "productId": "식품-2"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0407"
+        },
+        "quote": "사은품 B 꼭 넣고, 사은품 B는 빼 주세요"
+      }
+    },
+    {
+      "id": "R43",
+      "text": "그거 좀 어떻게 해 주세요.",
+      "broadcast": {
+        "id": "S0419",
+        "t": 419,
+        "category": "패션",
+        "daypart": "아침",
+        "productId": "패션-3"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0419"
+        },
+        "quote": "그거 좀 어떻게 해 주세요"
+      }
+    },
+    {
+      "id": "R44",
+      "text": "카드 7%까지만 하고 카드는 아예 쓰지 마세요.",
+      "broadcast": {
+        "id": "S0444",
+        "t": 444,
+        "category": "생활가전",
+        "daypart": "저녁",
+        "productId": "생활가전-1"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0444"
+        },
+        "quote": "카드 7%까지만 하고 카드는 아예 쓰지 마세요"
+      }
+    },
+    {
+      "id": "R45",
+      "text": "비가 와서 방송 분위기가 좀 가라앉네요.",
+      "broadcast": {
+        "id": "S0453",
+        "t": 453,
+        "category": "건강식품",
+        "daypart": "심야",
+        "productId": "건강식품-2"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0453"
+        },
+        "quote": "비가 와서 방송 분위기가 좀 가라앉네요"
+      }
+    },
+    {
+      "id": "R46",
+      "text": "저번처럼 해 주세요.",
+      "broadcast": {
+        "id": "S0472",
+        "t": 472,
+        "category": "뷰티",
+        "daypart": "아침",
+        "productId": "뷰티-3"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0472"
+        },
+        "quote": "저번처럼 해 주세요"
+      }
+    },
+    {
+      "id": "R47",
+      "text": "다 빼 주세요.",
+      "broadcast": {
+        "id": "S0493",
+        "t": 493,
+        "category": "식품",
+        "daypart": "낮",
+        "productId": "식품-1"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0493"
+        },
+        "quote": "다 빼 주세요"
+      }
+    },
+    {
+      "id": "R48",
+      "text": "사은품 D를 넣어 주세요.",
+      "broadcast": {
+        "id": "S0395",
+        "t": 395,
+        "category": "패션",
+        "daypart": "저녁",
+        "productId": "패션-2"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0395"
+        },
+        "quote": "사은품 D를 넣어 주세요"
+      }
+    },
+    {
+      "id": "R49",
+      "text": "주말에 가족 모임이 있어서 일찍 퇴근해요.",
+      "broadcast": {
+        "id": "S0434",
+        "t": 434,
+        "category": "생활가전",
+        "daypart": "낮",
+        "productId": "생활가전-3"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0434"
+        },
+        "quote": "주말에 가족 모임이 있어서 일찍 퇴근해요"
+      }
+    },
+    {
+      "id": "R50",
+      "text": "카드 할인 15%로 올려 주세요.",
+      "broadcast": {
+        "id": "S0505",
+        "t": 505,
+        "category": "건강식품",
+        "daypart": "저녁",
+        "productId": "건강식품-1"
+      },
+      "expected": {
+        "kind": "unclear",
+        "scope": {},
+        "target": {},
+        "duration": {
+          "type": "this_broadcast",
+          "broadcastId": "S0505"
+        },
+        "quote": "카드 할인 15%로 올려 주세요"
+      }
+    }
+  ]
+}

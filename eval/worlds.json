@@ -1,0 +1,916 @@
+{
+  "worlds": [
+    {
+      "name": "w01-on",
+      "cfg": {
+        "seed": 492815302,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 407,
+        "changeAt": 286,
+        "noiseSd": 0.33,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w02-on",
+      "cfg": {
+        "seed": 407988730,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 382,
+        "changeAt": 292,
+        "noiseSd": 0.32,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w03-on",
+      "cfg": {
+        "seed": 1857027170,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 308,
+        "changeAt": 254,
+        "noiseSd": 0.36,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w04-on",
+      "cfg": {
+        "seed": 610462141,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 364,
+        "changeAt": 269,
+        "noiseSd": 0.3,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w05-on",
+      "cfg": {
+        "seed": 1868553800,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 307,
+        "changeAt": 259,
+        "noiseSd": 0.39,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w06-on",
+      "cfg": {
+        "seed": 1170823289,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 351,
+        "changeAt": 275,
+        "noiseSd": 0.3,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w07-on",
+      "cfg": {
+        "seed": 1134240131,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 323,
+        "changeAt": 239,
+        "noiseSd": 0.26,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w08-on",
+      "cfg": {
+        "seed": 540775,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 325,
+        "changeAt": 236,
+        "noiseSd": 0.38,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w09-on",
+      "cfg": {
+        "seed": 745978695,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 331,
+        "changeAt": 275,
+        "noiseSd": 0.31,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w10-on",
+      "cfg": {
+        "seed": 1079169964,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 403,
+        "changeAt": 301,
+        "noiseSd": 0.37,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w11-on",
+      "cfg": {
+        "seed": 882675895,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 307,
+        "changeAt": 219,
+        "noiseSd": 0.29,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w12-on",
+      "cfg": {
+        "seed": 1084126691,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 326,
+        "changeAt": 254,
+        "noiseSd": 0.39,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w13-on",
+      "cfg": {
+        "seed": 891237878,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 313,
+        "changeAt": 238,
+        "noiseSd": 0.38,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w14-on",
+      "cfg": {
+        "seed": 1741945769,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 385,
+        "changeAt": 325,
+        "noiseSd": 0.29,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w15-on",
+      "cfg": {
+        "seed": 177185513,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 406,
+        "changeAt": 286,
+        "noiseSd": 0.28,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w16-on",
+      "cfg": {
+        "seed": 161215239,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 383,
+        "changeAt": 315,
+        "noiseSd": 0.31,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w17-on",
+      "cfg": {
+        "seed": 1186553316,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 407,
+        "changeAt": 336,
+        "noiseSd": 0.31,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w18-on",
+      "cfg": {
+        "seed": 1323536373,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 344,
+        "changeAt": 289,
+        "noiseSd": 0.35,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w19-on",
+      "cfg": {
+        "seed": 379927079,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 324,
+        "changeAt": 231,
+        "noiseSd": 0.39,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w20-on",
+      "cfg": {
+        "seed": 1193636235,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 392,
+        "changeAt": 331,
+        "noiseSd": 0.34,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w21-on",
+      "cfg": {
+        "seed": 1505220365,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 301,
+        "changeAt": 218,
+        "noiseSd": 0.3,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w22-on",
+      "cfg": {
+        "seed": 1353315763,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 335,
+        "changeAt": 259,
+        "noiseSd": 0.28,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w23-on",
+      "cfg": {
+        "seed": 1939075957,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 316,
+        "changeAt": 248,
+        "noiseSd": 0.36,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w24-on",
+      "cfg": {
+        "seed": 1851039346,
+        "misspec": {
+          "concaveCard": true,
+          "interaction": true,
+          "daypartElasticity": true,
+          "structuralChange": true,
+          "hiddenFactor": true,
+          "selectionBias": true,
+          "heavyTail": true
+        },
+        "historyLength": 323,
+        "changeAt": 235,
+        "noiseSd": 0.32,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w01-off",
+      "cfg": {
+        "seed": 492815302,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 407,
+        "changeAt": 286,
+        "noiseSd": 0.33,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w02-off",
+      "cfg": {
+        "seed": 407988730,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 382,
+        "changeAt": 292,
+        "noiseSd": 0.32,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w03-off",
+      "cfg": {
+        "seed": 1857027170,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 308,
+        "changeAt": 254,
+        "noiseSd": 0.36,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w04-off",
+      "cfg": {
+        "seed": 610462141,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 364,
+        "changeAt": 269,
+        "noiseSd": 0.3,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w05-off",
+      "cfg": {
+        "seed": 1868553800,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 307,
+        "changeAt": 259,
+        "noiseSd": 0.39,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w06-off",
+      "cfg": {
+        "seed": 1170823289,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 351,
+        "changeAt": 275,
+        "noiseSd": 0.3,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w07-off",
+      "cfg": {
+        "seed": 1134240131,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 323,
+        "changeAt": 239,
+        "noiseSd": 0.26,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w08-off",
+      "cfg": {
+        "seed": 540775,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 325,
+        "changeAt": 236,
+        "noiseSd": 0.38,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w09-off",
+      "cfg": {
+        "seed": 745978695,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 331,
+        "changeAt": 275,
+        "noiseSd": 0.31,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w10-off",
+      "cfg": {
+        "seed": 1079169964,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 403,
+        "changeAt": 301,
+        "noiseSd": 0.37,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w11-off",
+      "cfg": {
+        "seed": 882675895,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 307,
+        "changeAt": 219,
+        "noiseSd": 0.29,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w12-off",
+      "cfg": {
+        "seed": 1084126691,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 326,
+        "changeAt": 254,
+        "noiseSd": 0.39,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w13-off",
+      "cfg": {
+        "seed": 891237878,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 313,
+        "changeAt": 238,
+        "noiseSd": 0.38,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w14-off",
+      "cfg": {
+        "seed": 1741945769,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 385,
+        "changeAt": 325,
+        "noiseSd": 0.29,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w15-off",
+      "cfg": {
+        "seed": 177185513,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 406,
+        "changeAt": 286,
+        "noiseSd": 0.28,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w16-off",
+      "cfg": {
+        "seed": 161215239,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 383,
+        "changeAt": 315,
+        "noiseSd": 0.31,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w17-off",
+      "cfg": {
+        "seed": 1186553316,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 407,
+        "changeAt": 336,
+        "noiseSd": 0.31,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w18-off",
+      "cfg": {
+        "seed": 1323536373,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 344,
+        "changeAt": 289,
+        "noiseSd": 0.35,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w19-off",
+      "cfg": {
+        "seed": 379927079,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 324,
+        "changeAt": 231,
+        "noiseSd": 0.39,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w20-off",
+      "cfg": {
+        "seed": 1193636235,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 392,
+        "changeAt": 331,
+        "noiseSd": 0.34,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w21-off",
+      "cfg": {
+        "seed": 1505220365,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 301,
+        "changeAt": 218,
+        "noiseSd": 0.3,
+        "policy": "random"
+      }
+    },
+    {
+      "name": "w22-off",
+      "cfg": {
+        "seed": 1353315763,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 335,
+        "changeAt": 259,
+        "noiseSd": 0.28,
+        "policy": "boost-strong"
+      }
+    },
+    {
+      "name": "w23-off",
+      "cfg": {
+        "seed": 1939075957,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 316,
+        "changeAt": 248,
+        "noiseSd": 0.36,
+        "policy": "rescue-weak"
+      }
+    },
+    {
+      "name": "w24-off",
+      "cfg": {
+        "seed": 1851039346,
+        "misspec": {
+          "concaveCard": false,
+          "interaction": false,
+          "daypartElasticity": false,
+          "structuralChange": false,
+          "hiddenFactor": false,
+          "selectionBias": false,
+          "heavyTail": false
+        },
+        "historyLength": 323,
+        "changeAt": 235,
+        "noiseSd": 0.32,
+        "policy": "random"
+      }
+    }
+  ]
+}

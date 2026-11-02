@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Combo, Product, ScheduledBroadcast } from '@/lib/domain';
-import { newSession, SCHEDULE_LENGTH, type ProposalDto, type RunResult, type Session } from '@/lib/engine';
+import { newSession, SCHEDULE_LENGTH, SessionSchema, type ProposalDto, type RunResult, type Session } from '@/lib/engine';
+import demoSession from '../data/demo-session.json';
 import type { ExplainResult } from '@/lib/llm/explain';
 import type { Constraint } from '@/lib/ledger/constraints';
 import type { ComboEval } from '@/lib/search/combos';
@@ -50,12 +51,12 @@ const CHIPS = ['사은품이 상품과 안 맞음', '카드 할인 폭이 과함
 const STORAGE_KEY = 'promo-agent-session-v1';
 
 const won = (n: number) => `${Math.round(n).toLocaleString('ko-KR')}원`;
-const comboLabel = (c: Combo, gifts: { id: string; name: string }[]) => `카드 ${c.cardLevel}% + ${gifts.find((g) => g.id === c.giftId)?.name ?? c.giftId}`;
+const comboLabel = (c: { cardLevel: number; giftId: string }, gifts: { id: string; name: string }[]) => `카드 ${c.cardLevel}% + ${gifts.find((g) => g.id === c.giftId)?.name ?? c.giftId}`;
 const sameCombo = (a: Combo, b: Combo) => a.cardLevel === b.cardLevel && a.giftId === b.giftId;
 
 function Badge({ kind }: { kind: '추정' | '계산' | '가정' | '합성' | '모델 문장' | '템플릿' }) {
   const color = { 추정: 'bg-blue-100 text-blue-800', 계산: 'bg-gray-100 text-gray-800', 가정: 'bg-amber-100 text-amber-800', 합성: 'bg-rose-100 text-rose-800', '모델 문장': 'bg-violet-100 text-violet-800', 템플릿: 'bg-gray-200 text-gray-700' }[kind];
-  return <span className={`inline-block rounded px-1.5 py-0.5 text-[11px] font-medium ${color}`}>{kind}</span>;
+  return <span className={`inline-block rounded px-1.5 py-0.5 text-[12px] font-medium ${color}`}>{kind}</span>;
 }
 
 function IntervalRow({ label, iv, badge, money }: { label: string; iv: { p10: number; p50: number; p90: number }; badge: '추정' | '계산'; money?: boolean }) {
@@ -151,6 +152,14 @@ export default function Agent() {
     setSession(s);
     setCurrent(null);
     void propose(s, 0, false);
+  };
+
+  // 시연 상태: 방송 3회(승인, 수정과 이유 해석, 승인)를 대본대로 미리 돌려 둔 세션. 모델 없이도 같은 상태가 나온다.
+  const loadDemo = () => {
+    const s = SessionSchema.parse(demoSession);
+    setSession(s);
+    setCurrent(null);
+    void propose(s, s.outcomes.length, true);
   };
 
   const approve = () => {
@@ -251,14 +260,14 @@ export default function Agent() {
   }, [session, current]);
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 text-[14px] text-gray-900">
+    <main className="mx-auto max-w-6xl px-4 py-6 text-[15px] text-gray-900">
       <div className="mb-4 rounded-md border border-rose-300 bg-rose-50 px-3 py-2 text-rose-900">
         <Badge kind="합성" /> 이 화면의 모든 방송, 상품, 실적은 합성 데이터입니다. 실제 홈쇼핑 수치와 무관하고, 담당자의 수정과 이유는 시연을 위한 시나리오 대본입니다. 합성 결과를 실제 성과로 읽지 마십시오.
       </div>
       <header className="mb-4 flex flex-wrap items-end justify-between gap-2">
         <div>
           <h1 className="text-xl font-bold">프로모션 조건 결정 에이전트</h1>
-          <p className="text-gray-600">편성표의 방송마다 에이전트가 조건 결정안을 올리고, 담당자는 승인하거나 고치고, 고친 이유를 제약으로 배우고, 방송 실적으로 추정을 갱신해 다음 결정안을 냅니다.</p>
+          <p className="text-gray-600">편성표의 방송마다 에이전트가 조건 결정안을 올립니다. 담당자가 승인하거나 고치면 고친 이유를 제약으로 기억하고, 방송 실적으로 추정을 갱신해 다음 결정안을 냅니다.</p>
         </div>
         <div className="flex gap-2">
           {(['loop', 'ledger', 'promotion', 'curve'] as const).map((t) => (
@@ -266,6 +275,9 @@ export default function Agent() {
               {{ loop: '결정 고리', ledger: '제약 장부와 결정 기록', promotion: '승격 판정', curve: '학습 곡선(평가)' }[t]}
             </button>
           ))}
+          <button onClick={loadDemo} className="rounded border px-3 py-1" title="방송 3회를 대본대로 미리 돌려 둔 상태(승인, 수정과 이유 해석, 승인)에서 시작">
+            시연 상태 불러오기
+          </button>
           <button onClick={reset} className="rounded border px-3 py-1">
             처음부터
           </button>
@@ -288,12 +300,12 @@ export default function Agent() {
                 return (
                   <li key={id} className={`rounded px-2 py-1 ${isCur ? 'bg-gray-900 text-white' : done ? 'text-gray-400' : ''}`}>
                     {i + 1}. {id} {done ? '방송 완료' : isCur ? '결정 중' : '대기'}
-                    {dec && <span className="ml-1 text-[11px]">{dec.status === 'modified' ? '(수정)' : '(승인)'}</span>}
+                    {dec && <span className="ml-1 text-[12px]">{dec.status === 'modified' ? '(수정)' : '(승인)'}</span>}
                   </li>
                 );
               })}
             </ol>
-            <p className="mt-3 text-[12px] text-gray-500">
+            <p className="mt-3 text-[13px] text-gray-500">
               반영한 실적 {session.outcomes.length}건, 활성 제약 {session.ledger.filter((c) => c.status === 'active').length}개
             </p>
           </aside>
@@ -301,21 +313,21 @@ export default function Agent() {
           <section className="space-y-4">
             {current && p && chosen && (
               <div className="rounded border border-gray-200 p-4">
-                <div className="mb-1 text-[12px] text-gray-500">
+                <div className="mb-1 text-[13px] text-gray-500">
                   방송 {current.sb.id} (t={current.sb.t}) {current.sb.category} {current.sb.daypart} {current.product.name} 정가 {won(current.product.listPrice)} 마진율 {Math.round(current.product.marginRate * 100)}% <Badge kind="가정" /> 예산 {won(current.sb.budget)} 목표 {p.objective === 'margin' ? '마진' : '매출'}
                 </div>
                 <h2 className="text-lg font-bold">
                   결정안: {comboLabel(chosen.combo, gifts)}{' '}
                   <span className="text-sm font-normal text-gray-600">
-                    실행 가능 {p.feasibleCount}/{p.evals.length} 조합 중 1위, 가장 나을 확률 {Math.round(chosen.pBest * 100)}% <Badge kind="계산" />
+                    실행 가능 {p.feasibleCount}/{p.evals.length} 조합 중 1위, 최선일 확률 {Math.round(chosen.pBest * 100)}% <Badge kind="계산" />
                   </span>
                 </h2>
                 {current.before && current.before.chosen && !sameCombo(current.before.chosen.combo, chosen.combo) && (
                   <div className="mt-1 rounded bg-emerald-50 px-2 py-1 text-emerald-900">직전 실적을 반영하기 전에는 {comboLabel(current.before.chosen.combo, gifts)}이(가) 1위였습니다. 갱신으로 결정안이 바뀌었습니다.</div>
                 )}
-                {current.before && current.before.chosen && sameCombo(current.before.chosen.combo, chosen.combo) && <div className="mt-1 text-[12px] text-gray-500">직전 실적을 반영해도 1위 조합은 같습니다. 아래 표의 순위와 숫자는 달라졌을 수 있습니다.</div>}
+                {current.before && current.before.chosen && sameCombo(current.before.chosen.combo, chosen.combo) && <div className="mt-1 text-[13px] text-gray-500">직전 실적을 반영해도 1위 조합은 같습니다. 아래 표의 순위와 숫자는 달라졌을 수 있습니다.</div>}
 
-                <table className="mt-3 w-full text-[13px]">
+                <table className="mt-3 w-full text-[14px]">
                   <thead>
                     <tr className="text-gray-500">
                       <th className="text-left font-normal"></th>
@@ -332,15 +344,15 @@ export default function Agent() {
                     <IntervalRow label="마진" iv={chosen.margin} badge="계산" money />
                   </tbody>
                 </table>
-                <p className="mt-1 text-[12px] text-gray-500">
+                <p className="mt-1 text-[13px] text-gray-500">
                   <Badge kind="추정" /> 과거 합성 방송 {p.cellSamples}건(이 상품군 x 시간대)에서 추정. <Badge kind="계산" /> 추정 주문 수에 가격식을 적용. <Badge kind="가정" /> 취소율 8%, 카드 청구할인 회사 부담 50%, 사은품 원가는 메뉴 입력값. 적용된 제약 {p.appliedConstraintIds.length}개.
                   {p.releasedConstraintId && <span className="text-amber-700"> 모든 조합이 막혀 제약 {p.releasedConstraintId}을(를) 풀었습니다.</span>}
                 </p>
 
                 <div className="mt-3 rounded bg-gray-50 p-3">
-                  <div className="mb-1 flex items-center gap-2 text-[12px] text-gray-500">
+                  <div className="mb-1 flex items-center gap-2 text-[13px] text-gray-500">
                     에이전트 설명 <Badge kind={current.explanation.source === 'model' ? '모델 문장' : '템플릿'} />
-                    {current.explanation.source === 'model' && current.explanation.rejected.length > 0 && <span>검증기가 {current.explanation.rejected.length}번 돌려보낸 뒤 통과</span>}
+                    {current.explanation.source === 'model' && current.explanation.rejected.length > 0 && <span>검증기가 {current.explanation.rejected.length}번 되돌려 보낸 뒤 통과</span>}
                     {current.llmNote && <span>{current.llmNote}</span>}
                   </div>
                   <p>{current.explanation.filled.why}</p>
@@ -349,7 +361,7 @@ export default function Agent() {
                       대안 {i + 1}. {a}
                     </p>
                   ))}
-                  {current.explanation.filled.caution && <p className="mt-1 text-amber-800">확신이 낮은 곳: {current.explanation.filled.caution}</p>}
+                  {current.explanation.filled.caution && <p className="mt-1 text-amber-800">확신이 낮은 지점: {current.explanation.filled.caution}</p>}
                 </div>
 
                 <div className="mt-3 grid gap-3 md:grid-cols-2">
@@ -358,9 +370,9 @@ export default function Agent() {
                     {p.alternatives.map((a) => (
                       <div key={a.eval.key} className="mb-1 rounded border border-gray-200 px-2 py-1">
                         <div>
-                          {comboLabel(a.eval.combo, gifts)} <span className="text-gray-500">마진 중앙 {won(a.eval.margin.p50)}, 확률 {Math.round(a.eval.pBest * 100)}%</span>
+                          {comboLabel(a.eval.combo, gifts)} <span className="text-gray-500">마진 중앙값 {won(a.eval.margin.p50)}, 최선일 확률 {Math.round(a.eval.pBest * 100)}%</span>
                         </div>
-                        <div className="text-[12px] text-gray-600">{a.whyNot.join(' / ')}</div>
+                        <div className="text-[13px] text-gray-600">{a.whyNot.join(' / ')}</div>
                       </div>
                     ))}
                   </div>
@@ -395,18 +407,18 @@ export default function Agent() {
                 {mode === 'modify' && (
                   <div className="mt-4 rounded border border-gray-300 p-3">
                     <div className="mb-2 font-semibold">담당자 수정 (시나리오 대본)</div>
-                    <label className="block text-[12px] text-gray-600">조합 선택 (실행 가능한 조합만)</label>
+                    <label className="block text-[13px] text-gray-600">조합 선택 (실행 가능한 조합만)</label>
                     <select className="mb-2 w-full rounded border px-2 py-1" value={pickedCombo ? `${pickedCombo.cardLevel}|${pickedCombo.giftId}` : ''} onChange={(e) => { const [l, g] = e.target.value.split('|'); setPickedCombo({ cardLevel: Number(l) as Combo['cardLevel'], giftId: g as Combo['giftId'] }); }}>
                       {feasible.map((e: ComboEval) => (
                         <option key={e.key} value={`${e.combo.cardLevel}|${e.combo.giftId}`}>
-                          {e.rank}위 {comboLabel(e.combo, gifts)} 마진 중앙 {won(e.margin.p50)}
+                          {e.rank}위 {comboLabel(e.combo, gifts)} 마진 중앙값 {won(e.margin.p50)}
                         </option>
                       ))}
                     </select>
-                    <div className="mb-1 text-[12px] text-gray-600">이유 (선택지는 예시이며 현업 확인 전)</div>
+                    <div className="mb-1 text-[13px] text-gray-600">이유 (선택지는 예시이며 현업 확인 전)</div>
                     <div className="mb-2 flex flex-wrap gap-1">
                       {CHIPS.map((c) => (
-                        <button key={c} onClick={() => setChips(chips.includes(c) ? chips.filter((x) => x !== c) : [...chips, c])} className={`rounded-full border px-2 py-0.5 text-[12px] ${chips.includes(c) ? 'bg-gray-900 text-white' : ''}`}>
+                        <button key={c} onClick={() => setChips(chips.includes(c) ? chips.filter((x) => x !== c) : [...chips, c])} className={`rounded-full border px-2 py-0.5 text-[13px] ${chips.includes(c) ? 'bg-gray-900 text-white' : ''}`}>
                           {c}
                         </button>
                       ))}
@@ -431,7 +443,7 @@ export default function Agent() {
                           <>
                             <div className="font-semibold">이렇게 이해했습니다 <Badge kind="모델 문장" /> (시도 {interp.attempts}회)</div>
                             <div className="mt-1">{interp.description}</div>
-                            <div className="text-[12px] text-gray-600">근거 구절: &quot;{interp.candidate.quote}&quot; / 확신 {interp.candidate.confidence === 'high' ? '높음' : '낮음'}</div>
+                            <div className="text-[13px] text-gray-600">근거 구절: &quot;{interp.candidate.quote}&quot; / 확신 {interp.candidate.confidence === 'high' ? '높음' : '낮음'}</div>
                             <div className="mt-2 flex gap-2">
                               {interp.candidate.kind !== 'unclear' && interp.candidate.kind !== 'note' && (
                                 <button onClick={() => confirmModify(true)} className="rounded bg-violet-700 px-3 py-1 text-white">
@@ -452,7 +464,7 @@ export default function Agent() {
                         {!interp.ok && (
                           <>
                             <div className="font-semibold">해석하지 못했습니다. 제약을 만들지 않습니다.</div>
-                            <div className="text-[12px] text-gray-600">{(interp.errors ?? []).join(' / ')}</div>
+                            <div className="text-[13px] text-gray-600">{(interp.errors ?? []).join(' / ')}</div>
                           </>
                         )}
                       </div>
@@ -477,8 +489,8 @@ export default function Agent() {
                     <div className="mt-1">
                       실제 주문 {run.record.orders}건 <Badge kind="합성" /> {run.inInterval ? '예상 구간 안' : '예상 구간 밖'} (취소율 {Math.round(run.record.cancelRate * 100)}%)
                     </div>
-                    <div className="mt-2 text-[12px] text-gray-600">이번 실적 한 건이 이 칸의 조합별 예상 주문 수를 얼마나 움직였나 (갱신 전 대비)</div>
-                    <table className="mt-1 w-full text-[13px]">
+                    <div className="mt-2 text-[13px] text-gray-600">이번 실적 한 건이 이 칸의 조합별 예상 주문 수를 얼마나 움직였나 (갱신 전 대비)</div>
+                    <table className="mt-1 w-full text-[14px]">
                       <tbody>
                         {run.shifts.map((s) => (
                           <tr key={`${s.combo.cardLevel}|${s.combo.giftId}`} className="border-t border-gray-200">
@@ -494,7 +506,7 @@ export default function Agent() {
                         ))}
                       </tbody>
                     </table>
-                    <p className="mt-1 text-[12px] text-gray-500">예측이 얼마나 맞았는지만 말합니다. 이 조건이 매출을 올렸다고 단정하지 않습니다(시간대, 상품군, 기록되지 않는 요인이 함께 움직입니다).</p>
+                    <p className="mt-1 text-[13px] text-gray-500">예측이 얼마나 맞았는지만 말합니다. 이 조건이 매출을 올렸다고 단정하지 않습니다(시간대, 상품군, 기록되지 않는 요인이 함께 움직입니다).</p>
                     {nextIndex < SCHEDULE_LENGTH ? (
                       <button onClick={() => propose(session, nextIndex, true)} className="mt-3 rounded bg-gray-900 px-4 py-2 text-white">
                         다음 방송 결정안
@@ -523,31 +535,31 @@ export default function Agent() {
                     {c.id} {c.kind === 'ban_gift' ? '사은품 금지' : c.kind === 'cap_card' ? '카드 상한' : c.kind === 'require_gift' ? '사은품 필수' : c.kind === 'note' ? '메모' : '해석 불가'} {c.status === 'active' ? '(활성)' : c.status === 'released' ? '(해제)' : '(후보)'}
                   </span>
                   {c.status === 'active' && (
-                    <button onClick={() => setSession({ ...session, ledger: session.ledger.map((x) => (x.id === c.id ? { ...x, status: 'released' } : x)) })} className="rounded border px-2 py-0.5 text-[12px]">
+                    <button onClick={() => setSession({ ...session, ledger: session.ledger.map((x) => (x.id === c.id ? { ...x, status: 'released' } : x)) })} className="rounded border px-2 py-0.5 text-[13px]">
                       해제
                     </button>
                   )}
                 </div>
-                <div className="text-[12px] text-gray-600">
-                  범위 {[c.scope.productId, c.scope.category, c.scope.daypart].filter(Boolean).join(', ') || '없음'} / 대상 {c.target.giftId ?? (c.target.maxCardLevel !== undefined ? `카드 최대 ${c.target.maxCardLevel}%` : '없음')} / 지속 {c.duration.type === 'this_broadcast' ? `방송 ${c.duration.broadcastId}만` : c.duration.type === 'until_t' ? `t=${c.duration.t} 까지` : '계속'}
+                <div className="text-[13px] text-gray-600">
+                  범위 {[c.scope.productId, c.scope.category, c.scope.daypart].filter(Boolean).join(', ') || '전체'} / 대상 {c.target.giftId !== undefined ? (gifts.find((g) => g.id === c.target.giftId)?.name ?? c.target.giftId) : c.target.maxCardLevel !== undefined ? `카드 할인 최대 ${c.target.maxCardLevel}%` : '없음'} / 지속 {c.duration.type === 'this_broadcast' ? `방송 ${c.duration.broadcastId}만` : c.duration.type === 'until_t' ? `방송 순번 ${c.duration.t}까지` : '계속'}
                 </div>
-                <div className="text-[12px] text-gray-500">원문: &quot;{c.sourceText}&quot; / 인용: &quot;{c.quote}&quot;</div>
+                <div className="text-[13px] text-gray-500">원문: &quot;{c.sourceText}&quot; / 인용: &quot;{c.quote}&quot;</div>
               </div>
             ))}
           </div>
           <div className="rounded border border-gray-200 p-3">
             <div className="mb-2 font-semibold">결정 기록</div>
             {session.decisions.length === 0 && <div className="text-gray-500">아직 없음</div>}
-            <table className="w-full text-[13px]">
+            <table className="w-full text-[14px]">
               <tbody>
                 {session.decisions.map((d) => (
                   <tr key={d.broadcastId} className="border-t border-gray-200">
-                    <td className="py-1">{d.broadcastId}</td>
-                    <td className="py-1">{d.status === 'modified' ? '수정' : '승인'}</td>
-                    <td className="py-1 text-[12px] text-gray-600">
-                      원안 카드 {d.proposed.cardLevel}%+{d.proposed.giftId} → 최종 카드 {d.final.cardLevel}%+{d.final.giftId}
+                    <td className="py-1 pr-2 whitespace-nowrap">{d.broadcastId}</td>
+                    <td className="py-1 pr-2 whitespace-nowrap">{d.status === 'modified' ? '수정' : '승인'}</td>
+                    <td className="py-1 text-[13px] text-gray-600">
+                      원안 {comboLabel(d.proposed, gifts)} → 최종 {comboLabel(d.final, gifts)}
                     </td>
-                    <td className="py-1 text-[12px] text-gray-600">{d.outcome ? `${d.outcome.orders}건 ${d.outcome.inInterval ? '구간 안' : '구간 밖'}` : '방송 전'}</td>
+                    <td className="py-1 pl-2 text-[13px] text-gray-600 whitespace-nowrap">{d.outcome ? `${d.outcome.orders}건 ${d.outcome.inInterval ? '구간 안' : '구간 밖'}` : '방송 전'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -559,8 +571,8 @@ export default function Agent() {
       {tab === 'promotion' && (
         <div className="rounded border border-gray-200 p-3">
           <div className="mb-1 font-semibold">승격 판정 (단계적 위임의 설계 표시)</div>
-          <p className="mb-2 text-[12px] text-gray-600">시제품의 권한은 「에이전트가 정하고 담당자가 승인」입니다. 아래는 상품군 x 시간대 칸별로 에이전트의 예측 품질(담당자 수정률, 예상 구간 포함률)을 계산해 보여 줍니다. 승격 기준값은 현업이 정하는 칸이라 비워 두었고, 자동 확정은 구현하지 않았습니다. 현실에서는 원안과 수정안 중 어느 쪽이 더 맞았는지를 직접 잴 수 없습니다(한쪽만 방송되므로).</p>
-          <div className="mb-2 flex gap-2 text-[12px]">
+          <p className="mb-2 text-[13px] text-gray-600">시제품의 권한은 「에이전트가 정하고 담당자가 승인」입니다. 아래는 상품군 x 시간대 칸별로 에이전트의 예측 품질(담당자 수정률, 예상 구간 포함률)을 계산해 보여 줍니다. 승격 기준값은 현업이 정하는 칸이라 비워 두었고, 자동 확정은 구현하지 않았습니다. 현실에서는 원안과 수정안 중 어느 쪽이 더 맞았는지를 직접 잴 수 없습니다(한쪽만 방송되므로).</p>
+          <div className="mb-2 flex gap-2 text-[13px]">
             <label>
               수정률 기준(%) <input className="w-16 rounded border px-1" placeholder="현업 입력" disabled />
             </label>
@@ -568,7 +580,7 @@ export default function Agent() {
               구간 포함률 기준(%) <input className="w-16 rounded border px-1" placeholder="현업 입력" disabled />
             </label>
           </div>
-          <table className="w-full text-[13px]">
+          <table className="w-full text-[14px]">
             <thead>
               <tr className="text-left text-gray-500">
                 <th className="font-normal">칸</th>
@@ -602,10 +614,10 @@ export default function Agent() {
 
       {tab === 'curve' && (
         <div className="space-y-4">
-          <div className="rounded border border-gray-200 p-3 text-[13px]">
+          <div className="rounded border border-gray-200 p-3 text-[14px]">
             <div className="mb-1 font-semibold">학습 곡선: 갱신 켠 에이전트 대 끈 에이전트 대 기준선</div>
             <p className="text-gray-600">봉인된 평가용 합성 세계 48개(어긋남 켬 24, 끔 24)에서 같은 편성표와 같은 가상 담당자로 네 에이전트를 돌린 결과입니다. 손실은 참 기대 마진 기준 최선 조합과 실제 고른 조합의 차이이고 시드 평균입니다. 합성 세계 안의 일관성이지 실제 방송 정확도가 아닙니다. 못 이긴 결과도 그대로 적습니다.</p>
-            <div className="mt-1 flex flex-wrap gap-3 text-[12px]">
+            <div className="mt-1 flex flex-wrap gap-3 text-[13px]">
               {(['updating', 'frozen', 'copy_last', 'random'] as CurveAgent[]).map((a) => (
                 <span key={a} className="flex items-center gap-1">
                   <span className="inline-block h-2 w-4" style={{ background: AGENT_COLOR[a] }} /> {AGENT_LABEL[a]}
@@ -625,7 +637,7 @@ export default function Agent() {
                         방송 {n}회, 어긋남 {grp === 'on' ? '켬' : '끔'} (시드 {g.seeds}개)
                       </div>
                       <CurveChart g={g} />
-                      <table className="mt-2 w-full text-[12px]">
+                      <table className="mt-2 w-full text-[13px]">
                         <tbody>
                           {(['updating', 'frozen', 'copy_last', 'random'] as CurveAgent[]).map((a) => (
                             <tr key={a} className="border-t border-gray-200">
@@ -636,7 +648,7 @@ export default function Agent() {
                           ))}
                         </tbody>
                       </table>
-                      <div className="mt-1 text-[12px] text-gray-600">
+                      <div className="mt-1 text-[13px] text-gray-600">
                         갱신 켠 쪽이 끈 쪽을 이긴 시드 {g.updatingBeatsFrozen}/{g.seeds}, 직전 복사를 이긴 시드 {g.updatingBeatsCopy}/{g.seeds}
                       </div>
                     </div>
@@ -647,7 +659,7 @@ export default function Agent() {
         </div>
       )}
 
-      <footer className="mt-8 text-[12px] text-gray-500">숫자와 순위는 전부 코드가 계산합니다. 모델은 결정안 문장(슬롯만)과 수정 이유 해석에만 쓰입니다. 구현은 AI 에이전트(Claude Code), 문제 정의와 판단은 김지은.</footer>
+      <footer className="mt-8 text-[13px] text-gray-500">숫자와 순위는 전부 코드가 계산합니다. 모델은 결정안 문장(슬롯만)과 수정 이유 해석에만 쓰입니다. 구현은 AI 에이전트(Claude Code), 문제 정의와 판단은 김지은.</footer>
     </main>
   );
 }

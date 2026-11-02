@@ -32,7 +32,7 @@ export function propose(model: ModelState, sb: ScheduledBroadcast, product: Prod
       const gap = chosen[objKey].p50 - e[objKey].p50;
       why.push(`목표 중앙값이 1위보다 낮음 (차이 ${Math.round(gap).toLocaleString()}원)`);
       if (e.margin.p10 < chosen.margin.p10) why.push('마진 구간 하한이 더 낮음');
-      if (e.pBest < chosen.pBest) why.push(`1위 확률이 더 낮음 (${(e.pBest * 100).toFixed(0)}%)`);
+      if (e.pBest < chosen.pBest) why.push(`최선일 확률이 더 낮음 (${(e.pBest * 100).toFixed(0)}%)`);
     }
     return { eval: e, whyNot: why };
   });
@@ -42,7 +42,7 @@ export function propose(model: ModelState, sb: ScheduledBroadcast, product: Prod
     const width = chosen.orders.p90 / Math.max(1, chosen.orders.p10);
     if (width > 2.5) low.push({ code: 'wide_interval', detail: `주문 수 구간이 넓음 (상한/하한 ${width.toFixed(1)}배)` });
     if (chosen.sampleCount < 3) low.push({ code: 'few_samples', detail: `이 칸에서 이 조합의 과거 방송 ${chosen.sampleCount}건` });
-    if (chosen.pBest < 0.5) low.push({ code: 'low_pbest', detail: `1위일 확률 ${(chosen.pBest * 100).toFixed(0)}%` });
+    if (chosen.pBest < 0.5) low.push({ code: 'low_pbest', detail: `최선일 확률 ${(chosen.pBest * 100).toFixed(0)}%` });
   }
   if (cellSamples < 5) low.push({ code: 'cell_sparse', detail: `이 상품군 x 시간대의 과거 방송 ${cellSamples}건` });
   return {

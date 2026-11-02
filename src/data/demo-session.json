@@ -1,0 +1,147 @@
+{
+ "seed": 20261030,
+ "scheduleSeed": 7,
+ "outcomes": [
+  {
+   "id": "S0360",
+   "t": 360,
+   "productId": "건강식품-1",
+   "category": "건강식품",
+   "daypart": "아침",
+   "cardLevel": 5,
+   "giftId": "none",
+   "listPrice": 48000,
+   "marginRate": 0.2770514872390777,
+   "orders": 59,
+   "cancelRate": 0.076
+  },
+  {
+   "id": "S0361",
+   "t": 361,
+   "productId": "식품-3",
+   "category": "식품",
+   "daypart": "저녁",
+   "cardLevel": 0,
+   "giftId": "A",
+   "listPrice": 42000,
+   "marginRate": 0.28113790806382893,
+   "orders": 268,
+   "cancelRate": 0.114
+  },
+  {
+   "id": "S0362",
+   "t": 362,
+   "productId": "패션-2",
+   "category": "패션",
+   "daypart": "낮",
+   "cardLevel": 0,
+   "giftId": "A",
+   "listPrice": 77000,
+   "marginRate": 0.28331364546902477,
+   "orders": 136,
+   "cancelRate": 0.08
+  }
+ ],
+ "ledger": [
+  {
+   "kind": "cap_card",
+   "scope": {},
+   "target": {
+    "maxCardLevel": 0
+   },
+   "duration": {
+    "type": "until_t",
+    "t": 391
+   },
+   "quote": "당분간 카드 할인 없이 갑시다",
+   "confidence": "high",
+   "id": "C001",
+   "sourceText": "당분간 카드 할인 없이 갑시다. 카드사 정산이 밀려 있어요.",
+   "status": "active",
+   "createdAtT": 361,
+   "createdForBroadcastId": "S0361"
+  }
+ ],
+ "decisions": [
+  {
+   "broadcastId": "S0360",
+   "t": 360,
+   "proposed": {
+    "cardLevel": 5,
+    "giftId": "none"
+   },
+   "final": {
+    "cardLevel": 5,
+    "giftId": "none"
+   },
+   "status": "approved",
+   "reasonChips": [],
+   "constraintIds": [],
+   "predictedOrders": {
+    "p10": 76.76833053865832,
+    "p50": 128.2617533203652,
+    "p90": 204.00101619456944
+   },
+   "outcome": {
+    "orders": 59,
+    "cancelRate": 0.076,
+    "inInterval": false
+   }
+  },
+  {
+   "broadcastId": "S0361",
+   "t": 361,
+   "proposed": {
+    "cardLevel": 5,
+    "giftId": "none"
+   },
+   "final": {
+    "cardLevel": 0,
+    "giftId": "A"
+   },
+   "status": "modified",
+   "reasonChips": [
+    "지난 방송 반응"
+   ],
+   "reasonText": "당분간 카드 할인 없이 갑시다. 카드사 정산이 밀려 있어요.",
+   "constraintIds": [
+    "C001"
+   ],
+   "predictedOrders": {
+    "p10": 155.99305709141112,
+    "p50": 240.72827287234963,
+    "p90": 386.723679413403
+   },
+   "outcome": {
+    "orders": 268,
+    "cancelRate": 0.114,
+    "inInterval": true
+   }
+  },
+  {
+   "broadcastId": "S0362",
+   "t": 362,
+   "proposed": {
+    "cardLevel": 0,
+    "giftId": "A"
+   },
+   "final": {
+    "cardLevel": 0,
+    "giftId": "A"
+   },
+   "status": "approved",
+   "reasonChips": [],
+   "constraintIds": [],
+   "predictedOrders": {
+    "p10": 79.31240310014682,
+    "p50": 124.98479210533782,
+    "p90": 203.83469986027455
+   },
+   "outcome": {
+    "orders": 136,
+    "cancelRate": 0.08,
+    "inInterval": true
+   }
+  }
+ ]
+}

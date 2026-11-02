@@ -71,7 +71,7 @@ export function validateExplanation(e: Explanation, slots: Slots): string[] {
 
 // 모델이 실패하면 쓰는 코드 템플릿
 export function templateExplanation(p: Proposal): Explanation {
-  const why = `{{chosen_combo}}을(를) 제안합니다. {{objective}} 중앙값이 실행 가능한 {{feasible}} 조합 중 가장 높고, 가장 나을 확률은 {{pbest}}입니다. 예상 주문은 {{orders_p10}}에서 {{orders_p90}} 사이이고 중앙값은 {{orders_p50}}입니다.`;
+  const why = `{{chosen_combo}}을(를) 제안합니다. {{objective}} 중앙값이 실행 가능한 {{feasible}} 조합 중 가장 높고, 최선일 확률은 {{pbest}}입니다. 예상 주문은 {{orders_p10}}에서 {{orders_p90}} 사이이고 중앙값은 {{orders_p50}}입니다.`;
   const alternatives = p.alternatives.map((_, i) => `{{alt${i + 1}_combo}}은(는) {{alt${i + 1}_why}} 때문에 뒤로 뒀습니다.`);
   const caution = p.lowConfidence.length ? p.lowConfidence.map((_, i) => `{{low${i + 1}}}.`).join(' ') : '';
   return { why, alternatives, caution };
@@ -84,7 +84,8 @@ const SYSTEM = `당신은 홈쇼핑 프로모션 조건 결정 에이전트입�
 - why 에는 반드시 {{chosen_combo}} 가 들어갑니다.
 - 짧게 씁니다. why 는 두세 문장, alternatives 는 각 한 문장, caution 은 한두 문장.
 - 습니다체. 가운뎃점(·)과 긴 대시(—)를 쓰지 않습니다. 과장하지 않습니다. 합성 데이터라는 사실을 숨기지 않습니다.
-- 「매출을 올린다」처럼 인과를 단정하지 않습니다. 「예상」「추정」으로 씁니다.`;
+- 「매출을 올린다」처럼 인과를 단정하지 않습니다. 「예상」「추정」으로 씁니다.
+- 용어는 화면과 같게 씁니다: 「프로모션 비용」「최선일 확률」「마진 중앙값」. 「판촉 비용」「최선일 확률」처럼 바꿔 부르지 않습니다.`;
 
 export type ExplainResult = { explanation: Explanation; filled: { why: string; alternatives: string[]; caution: string }; source: 'model' | 'template'; attempts: number; rejected: string[][] };
 
